@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <title>HATUNUM</title>
+  <style>
+    /* Sayaç stilleri */
+    #counter {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #ff4c7c;
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 6px 16px;
+      border-radius: 20px;
+      z-index: 10000;
+      box-shadow: 0 0 10px #ff4c7c66;
+      font-family: sans-serif;
+    }
+
+    /* Giriş ekranı kalbi için */
+    .start-screen {
+      position: fixed;
+      z-index: 999;
+      background-color: #000;
+      color: white;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .start-heart {
+      font-size: 80px;
+      color: red;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+    }
+
+    .start-text {
+      margin-top: 10px;
+      font-size: 20px;
+      color: pink;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #card {
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.8s ease;
+    }
+
+    #card.show {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+      margin-top: 80px; /* Mektubu aşağı aldık - Sayaçla çakışmasın */
+    }
+
+    .side.two {
+      overflow-y: auto;
+      max-height: 80vh;
+      padding-right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sayaç sabit en üstte -->
+  <div id="counter">Yükleniyor...</div>
+
+  <!-- Başlangıç kalp ekranı -->
+  <div class="start-screen" id="startScreen">
+    <div class="start-heart" id="openCard"><i class="fas fa-heart"></i></div>
+    <div class="start-text">Kalbe Bas ❤️</div>
+  </div>
+
+  <div id="card">
+    <div class="side one">
+      <img src="assets/img/kalp.jpg" alt="Kalp Resmi" style="width: 100%; height: auto; border-radius: 20px;" />
+    </div>
+    <div class="side two">
+      <h2>🌷🌷🌷</h2>
+      <p>Güzel Kızım;</p>
+      <p>
+        Bugün tam bir yıl oldu güzel kızım, iyi ki seni o gün görmüşüm, iyi ki merak etmişim seni.<br />
+        Hayatıma girdiğin andan beri her şey değişti; davranışlarım olsun, hayata bakış açım olsun.<br /><br />
+        Tarif edemeyeceğim kadar özel, güzel ve gerçek duygular tattım seninle, bunun için sana sonsuz teşekkür ederim.<br />
+        İlk defa birine böyle güvendim, böyle bağlandım, böyle sevdim, tarif edemeyeceğim duygular yaşadım.<br /><br />
+        Sana göre ilkim değişmiş olabilir ama ben birçok şeyi seninle yaşadım, seninle öğrendim bu bir yıl içinde.<br />
+        Sen ne kadar kabul etmesen de benim de ilkim, ilklerim seninle...<br /><br />
+        Birlikte büyüdük, öğrendik, bazen yorulduk ama hiçbir zaman vazgeçmedik.<br />
+        Mesafeler bile aşkımıza engel olamadı.<br />
+        Kırıldık, sustuk ama her seferinde yeniden tuttuk birbirimizin elini.<br /><br />
+        Bu bir yıl, sabrımızın, sevgimizin ve kaderimizin gücünü gösterdi bana.<br />
+        Gözlerinin içine baktığım her an minnet doluyum.<br />
+        Sesini duymak bile bana huzur veriyor.<br />
+        Bakışını, dokunuşunu, sarılışını…<br />
+        Ve en çok da "biz" oluşumuzu çok seviyorum.<br /><br />
+        1 yıldır hayatıma anlam kattığın için,<br />
+        Beni olduğum gibi sevdiğin için,<br />
+        Her şeye rağmen yanımda kaldığın için teşekkür ederim.<br /><br />
+        Nice 1 yıllara, nice 100000 yıllara, nice günlere, nice sabahlara...<br />
+        El ele, omuz omuza, gönül gönüle…<br /><br />
+        Seni her şeyden çok seviyorum.<br />
+        Bizi çok seviyorum.<br />
+        İlk yılımız kutlu olsun sevgilim… 💫❤️
+      </p>
+      <p>
+        Güzel Kızıma ,<br />
+        [İLAYDAMAAAAA]
+      </p>
+    </div>
+  </div>
+
+  <!-- Müzik dosyası -->
+  <audio id="backgroundMusic" loop>
+    <source src="assets/beyaz.mp3" type="audio/mpeg" />
+    Tarayıcınız ses etiketini desteklemiyor.
+  </audio>
+
+  <script>
+    // Sayaç başlangıç tarihi
+    const startDate = new Date("2024-06-30T00:00:00");
+    const counter = document.getElementById("counter");
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+      const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 365.25);
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      counter.innerHTML = `<strong>${years}</strong> yıl, <strong>${days}</strong> gün, <strong>${hours}</strong> saat, <strong>${minutes}</strong> dakika, <strong>${seconds}</strong> saniyedir CENNETTEYİM.`;
+    }
+
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    // Müzik başlat
+    const music = document.getElementById("backgroundMusic");
+    music.pause();
+    music.currentTime = 0;
+
+    document.getElementById("openCard").addEventListener("click", function () {
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("card").classList.add("show");
+      music.play();
+    });
+  </script>
+</body>
+
+</html>
